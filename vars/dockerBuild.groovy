@@ -12,7 +12,7 @@ def call(Map config) {
     sh """
       docker build \\
         --build-arg APP_VERSION=${config.tag} \\
-        --build-arg GIT_COMMIT=\${GIT_COMMIT:-unknown} \\
+        --build-arg GIT_COMMIT=\$(git rev-parse HEAD 2>/dev/null || echo unknown) \\
         -t ${config.image}:${config.tag} -t ${config.image}:latest ${context}
     """
 }
